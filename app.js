@@ -363,7 +363,7 @@
       requestAnimationFrame(fr);
       const W = cv.width, H = cv.height; c.clearRect(0, 0, W, H);
       S.g.analyser.getByteFrequencyData(data); S.g.analyser.getByteTimeDomainData(wave);
-      const n = 84, bw = W / n, 
+      const n = 84, bw = W / n;
       c.fillStyle = "#16a34a"; let bass = 0;
       for (let i = 0; i < n; i++) {
         const a = Math.pow(i / n, 2.1) * (data.length * .75), b = Math.pow((i + 1) / n, 2.1) * (data.length * .75); let m = 0;
