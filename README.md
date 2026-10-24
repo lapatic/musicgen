@@ -1,4 +1,4 @@
-# Endless Music Lab
+# musicgen
 
 A generative music composer and synthesizer that runs entirely in the browser. No server, no samples, no build step -
 plain HTML/CSS/JavaScript, so it works as-is on GitHub Pages.
@@ -9,24 +9,24 @@ plain HTML/CSS/JavaScript, so it works as-is on GitHub Pages.
 
 ## Put it on GitHub Pages
 
-1. Create a new repository on GitHub (e.g. `endless-music-lab`) and push **the contents of this folder** to its `main` branch
+1. Create a new repository on GitHub (`musicgen`) and push **the contents of this folder** to its `main` branch
    (`index.html` must be at the repository root).
    ```
-   cd endless-music-site
-   git init && git add . && git commit -m "Endless Music Lab"
+   cd musicgen
+   git init && git add . && git commit -m "musicgen"
    git branch -M main
-   git remote add origin https://github.com/<you>/endless-music-lab.git
+   git remote add origin https://github.com/<you>/musicgen.git
    git push -u origin main
    ```
 2. On GitHub: **Settings -> Pages -> Build and deployment -> Deploy from a branch -> `main` / `(root)`** -> Save.
-3. After a minute it is live at `https://<you>.github.io/endless-music-lab/`.
+3. After a minute it is live at `https://<you>.github.io/musicgen/`.
 
 ## Run it locally
 
 Browsers refuse to start Web Workers from `file://`, so serve the folder instead of double-clicking `index.html`:
 
 ```
-cd endless-music-site
+cd musicgen
 python3 -m http.server 8000      # then open http://localhost:8000
 ```
 

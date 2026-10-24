@@ -1,4 +1,4 @@
-/* app.js - UI, scheduling and export for Endless Music Lab. The music itself is made in worker.js / engine.js. */
+/* app.js - UI, scheduling and export for musicgen. The music itself is made in worker.js / engine.js. */
 (function () {
   "use strict";
   const D = window.MG_DATA;
@@ -363,15 +363,15 @@
       requestAnimationFrame(fr);
       const W = cv.width, H = cv.height; c.clearRect(0, 0, W, H);
       S.g.analyser.getByteFrequencyData(data); S.g.analyser.getByteTimeDomainData(wave);
-      const n = 84, bw = W / n, gr = c.createLinearGradient(0, H, 0, 0); gr.addColorStop(0, "#8b5cf6"); gr.addColorStop(.6, "#22d3ee"); gr.addColorStop(1, "#f472b6");
-      c.fillStyle = gr; let bass = 0;
+      const n = 84, bw = W / n, 
+      c.fillStyle = "#16a34a"; let bass = 0;
       for (let i = 0; i < n; i++) {
         const a = Math.pow(i / n, 2.1) * (data.length * .75), b = Math.pow((i + 1) / n, 2.1) * (data.length * .75); let m = 0;
         for (let k = Math.floor(a); k <= Math.max(Math.floor(a), Math.floor(b)); k++) m = Math.max(m, data[k]);
         const v = m / 255, hgt = Math.max(2, v * v * H * .95); if (i < 5) bass = Math.max(bass, v);
         c.globalAlpha = .35 + v * .65; c.fillRect(i * bw + 1, H - hgt, bw - 2, hgt);
       }
-      c.globalAlpha = .9; c.strokeStyle = "#ffffffaa"; c.lineWidth = 2; c.beginPath();
+      c.globalAlpha = .9; c.strokeStyle = "#ca8a04"; c.lineWidth = 2; c.beginPath();
       for (let i = 0; i < wave.length; i += 4) { const x = i / wave.length * W, y = H * .5 + (wave[i] - 128) / 128 * H * .32; i ? c.lineTo(x, y) : c.moveTo(x, y); }
       c.stroke(); c.globalAlpha = 1;
       // now playing
@@ -432,7 +432,7 @@
     let t = 0; for (const b of bars) { if (t > seconds + 1) break; g.schedule(b, t); t += b.n / sr; }
     g.duck.gain.setValueAtTime(1, Math.max(0, seconds - 2)); g.duck.gain.linearRampToValueAtTime(0, seconds + 1.5);
     const buf = await off.startRendering(); progress(.95, "Encoding…");
-    download(AudioKit.encodeWav(buf), `endless-music-${d.style}-${d.seed}.wav`); progress(1);
+    download(AudioKit.encodeWav(buf), `musicgen-${d.style}-${d.seed}.wav`); progress(1);
   }
   function toggleRecord(btn, msg) {
     if (S.rec) { S.rec.stop(); return; }
@@ -440,7 +440,7 @@
     const type = ["audio/webm;codecs=opus", "audio/webm", "audio/mp4", "audio/ogg"].find((t) => MediaRecorder.isTypeSupported(t)) || "";
     const chunks = [], r = new MediaRecorder(S.g.rec.stream, type ? { mimeType: type } : undefined);
     r.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
-    r.onstop = () => { S.rec = null; btn.textContent = "⏺ Record live"; const ext = (r.mimeType || "audio/webm").includes("mp4") ? "m4a" : (r.mimeType || "").includes("ogg") ? "ogg" : "webm"; download(new Blob(chunks, { type: r.mimeType }), `endless-music-recording.${ext}`); msg.textContent = "Saved."; };
+    r.onstop = () => { S.rec = null; btn.textContent = "⏺ Record live"; const ext = (r.mimeType || "audio/webm").includes("mp4") ? "m4a" : (r.mimeType || "").includes("ogg") ? "ogg" : "webm"; download(new Blob(chunks, { type: r.mimeType }), `musicgen-recording.${ext}`); msg.textContent = "Saved."; };
     r.start(); S.rec = r; btn.textContent = "⏹ Stop & save"; msg.textContent = "Recording…";
   }
 
